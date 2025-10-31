@@ -9,7 +9,11 @@ export function checkBasicAuth(request: Request): boolean {
   const credentials = Buffer.from(base64Credentials, 'base64').toString('utf-8')
   const [username, password] = credentials.split(':')
 
-  return username === 'mn' && password === '39'
+  // 環境変数から認証情報を取得（Cloudflare Dashboard設定）
+  const validUsername = process.env.BASIC_AUTH_USER || 'mn'
+  const validPassword = process.env.BASIC_AUTH_PASS || '39'
+
+  return username === validUsername && password === validPassword
 }
 
 export function createAuthResponse(): Response {
