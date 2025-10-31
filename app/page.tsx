@@ -20,6 +20,7 @@ export default async function Home({ searchParams }: HomePageProps) {
   
   const { posts, total } = await db.getPostsWithPagination(currentPage, postsPerPage)
   const tags = await db.getAllTags()
+  const archive = await db.getArchive()
   const totalPages = Math.ceil(total / postsPerPage)
 
   return (
@@ -55,7 +56,7 @@ export default async function Home({ searchParams }: HomePageProps) {
         
         <aside className="sidebar">
           <SearchBox />
-          <Sidebar tags={tags} />
+          <Sidebar tags={tags} archive={archive} />
         </aside>
       </div>
     </div>

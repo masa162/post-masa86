@@ -1,10 +1,12 @@
 import Link from 'next/link'
+import Archive from './Archive'
 
 interface SidebarProps {
   tags?: string[]
+  archive?: any
 }
 
-export default function Sidebar({ tags = [] }: SidebarProps) {
+export default function Sidebar({ tags = [], archive = {} }: SidebarProps) {
   return (
     <aside className="sidebar">
       {/* About Section */}
@@ -14,6 +16,16 @@ export default function Sidebar({ tags = [] }: SidebarProps) {
           <p>記録と感覚の交差点、unbelongの雑記ブログ。</p>
         </div>
       </div>
+
+      {/* Archive Section */}
+      {Object.keys(archive).length > 0 && (
+        <div className="sidebar-section">
+          <h3 className="sidebar-title">アーカイブ</h3>
+          <div className="sidebar-content">
+            <Archive archive={archive} />
+          </div>
+        </div>
+      )}
 
       {/* Tags Section */}
       {tags.length > 0 && (

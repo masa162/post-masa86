@@ -20,6 +20,7 @@ export default async function TagPage({ params }: TagPageProps) {
   const tag = decodeURIComponent(tagParam)
   const posts = await db.getPostsByTag(tag)
   const allTags = await db.getAllTags()
+  const archive = await db.getArchive()
 
   return (
     <div className="main-container">
@@ -51,7 +52,7 @@ export default async function TagPage({ params }: TagPageProps) {
         
         <aside className="sidebar">
           <SearchBox />
-          <Sidebar tags={allTags} />
+          <Sidebar tags={allTags} archive={archive} />
         </aside>
       </div>
     </div>

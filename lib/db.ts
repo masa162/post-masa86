@@ -263,5 +263,43 @@ export const db = {
       return []
     }
   },
+
+  async getArchive(): Promise<any> {
+    try {
+      const DB = getD1()
+      if (!DB) return {}
+      
+      const results = await DB.prepare(
+        'SELECT * FROM posts ORDER BY created_at DESC'
+      ).all()
+      
+      const posts = results.results.map((row: any) => ({
+        ...row,
+        tags: JSON.parse(row.tags || '[]')
+      }))
+      
+      // Group posts by year and month
+      const archive: any = {}
+      
+      posts.forEach((post: Post) => {
+        const date = new Date(post.created_at)
+        const year = date.getFullYear().toString()
+        const month = (date.getMonth() + 1).toString().padStart(2, '0')
+        
+        if (!archive[year]) {
+          archive[year] = {}
+        }
+        if (!archive[year][month]) {
+          archive[year][month] = []
+        }
+        archive[year][month].push(post)
+      })
+      
+      return archive
+    } catch (error) {
+      console.error('Error fetching archive:', error)
+      return {}
+    }
+  },
 }
 

@@ -26,6 +26,7 @@ export default async function PostPage({ params }: PostPageProps) {
 
   const htmlContent = parseMarkdown(post.content)
   const tags = await db.getAllTags()
+  const archive = await db.getArchive()
 
   return (
     <div className="main-container">
@@ -68,7 +69,7 @@ export default async function PostPage({ params }: PostPageProps) {
         
         <aside className="sidebar">
           <SearchBox />
-          <Sidebar tags={tags} />
+          <Sidebar tags={tags} archive={archive} />
         </aside>
       </div>
     </div>
