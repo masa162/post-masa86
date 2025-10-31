@@ -395,6 +395,8 @@ body {
   grid-template-columns: 1fr;
   gap: 15px;
   margin: 0;
+  width: 100%;
+  max-width: 100%;
 }
 
 .post-card {
@@ -407,6 +409,7 @@ body {
   flex-direction: column;
   height: 100%;
   padding: 15px;
+  width: 100%;
   max-width: 100%;
   box-sizing: border-box;
 }
@@ -533,6 +536,12 @@ body {
   font-size: 13px;
   line-height: 1.5;
   color: #333333;
+  max-width: 100%;
+}
+
+.post-card-content-preview * {
+  max-width: 100% !important;
+  box-sizing: border-box;
 }
 
 .post-card-content-preview::after {

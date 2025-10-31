@@ -18,14 +18,18 @@ export function parseMarkdown(markdown: string): string {
   // Hugoのショートコードを変換
   let processed = markdown
   
-  // YouTube shortcode: {{< youtube VIDEO_ID >}} → iframe
+  // YouTube shortcode: {{< youtube VIDEO_ID >}} → iframe (width/height属性を削除)
   processed = processed.replace(
     /\{\{<\s*youtube\s+([a-zA-Z0-9_-]+)\s*>\}\}/g,
-    '<div class="youtube-embed"><iframe width="560" height="315" src="https://www.youtube.com/embed/$1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>'
+    '<div class="youtube-embed"><iframe src="https://www.youtube.com/embed/$1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>'
   )
   
   // Markdownを解析
-  const html = marked.parse(processed) as string
+  let html = marked.parse(processed) as string
+  
+  // 画像タグからwidth/height属性を削除
+  html = html.replace(/<img([^>]*)\s+width="[^"]*"([^>]*)>/gi, '<img$1$2>')
+  html = html.replace(/<img([^>]*)\s+height="[^"]*"([^>]*)>/gi, '<img$1$2>')
   
   return html
 }
