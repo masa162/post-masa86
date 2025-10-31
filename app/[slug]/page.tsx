@@ -30,7 +30,7 @@ export default async function PostPage({ params }: PostPageProps) {
 
   return (
     <div className="main-container">
-      <Header />
+      <Header tags={tags} archive={archive} currentSlug={post.slug} />
       
       <div className="content-wrapper">
         <article className="main-content">

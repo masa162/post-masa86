@@ -3,8 +3,16 @@
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
 import { usePathname } from 'next/navigation'
+import Sidebar from './Sidebar'
+import SearchBox from './SearchBox'
 
-export default function Header() {
+interface HeaderProps {
+  tags?: string[]
+  archive?: any
+  currentSlug?: string
+}
+
+export default function Header({ tags = [], archive = {}, currentSlug }: HeaderProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   const toggleMobileMenu = () => {
@@ -61,7 +69,7 @@ export default function Header() {
         </div>
         <div className="mobile-sidebar-content">
           <p className="mb-4 text-sm">記録と感覚の交差点、unbelongの雑記ブログ。</p>
-          <nav className="space-y-2">
+          <nav className="space-y-2 mb-6">
             <Link href="/" className="block py-2 text-sm hover:text-blue-600" onClick={toggleMobileMenu}>
               ホーム
             </Link>
@@ -72,6 +80,8 @@ export default function Header() {
               検索
             </Link>
           </nav>
+          <SearchBox />
+          <Sidebar tags={tags} archive={archive} currentSlug={currentSlug} />
         </div>
       </div>
     </>

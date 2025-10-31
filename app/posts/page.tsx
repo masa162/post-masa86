@@ -54,7 +54,7 @@ export default async function PostsPage({ searchParams }: PostsPageProps) {
 
   return (
     <div className="main-container">
-      <Header />
+      <Header tags={allTags} archive={archive} />
       
       <div className="content-wrapper">
         <main className="main-content">

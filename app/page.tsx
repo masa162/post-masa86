@@ -25,7 +25,7 @@ export default async function Home({ searchParams }: HomePageProps) {
 
   return (
     <div className="main-container">
-      <Header />
+      <Header tags={tags} archive={archive} />
       
       <div className="content-wrapper">
         <main className="main-content">

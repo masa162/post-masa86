@@ -16,10 +16,12 @@ function SearchContent() {
   const query = searchParams.get('q') || ''
   const [posts, setPosts] = useState<Post[]>([])
   const [tags, setTags] = useState<string[]>([])
+  const [archive, setArchive] = useState<any>({})
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     fetchTags()
+    fetchArchive()
     if (query) {
       performSearch(query)
     } else {
@@ -41,6 +43,37 @@ function SearchContent() {
     }
   }
 
+  const fetchArchive = async () => {
+    try {
+      const response = await fetch('/api/posts?limit=9999')
+      const data = await response.json() as { posts?: Post[] }
+      if (data.posts) {
+        const archiveData: any = {}
+        data.posts.forEach((post: Post) => {
+          const date = new Date(post.created_at)
+          const year = date.getFullYear().toString()
+          const month = (date.getMonth() + 1).toString()
+          
+          if (!archiveData[year]) {
+            archiveData[year] = {}
+          }
+          if (!archiveData[year][month]) {
+            archiveData[year][month] = []
+          }
+          archiveData[year][month].push({
+            id: post.id,
+            slug: post.slug,
+            title: post.title,
+            created_at: post.created_at
+          })
+        })
+        setArchive(archiveData)
+      }
+    } catch (error) {
+      console.error('Failed to fetch archive:', error)
+    }
+  }
+
   const performSearch = async (q: string) => {
     setLoading(true)
     try {
@@ -56,7 +89,7 @@ function SearchContent() {
 
   return (
     <div className="main-container">
-      <Header />
+      <Header tags={tags} archive={archive} />
       
       <div className="content-wrapper">
         <main className="main-content">
@@ -96,7 +129,7 @@ function SearchContent() {
         
         <aside className="sidebar">
           <SearchBox />
-          <Sidebar tags={tags} />
+          <Sidebar tags={tags} archive={archive} />
         </aside>
       </div>
     </div>
