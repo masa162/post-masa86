@@ -10,8 +10,13 @@ export function checkBasicAuth(request: Request): boolean {
   const [username, password] = credentials.split(':')
 
   // 環境変数から認証情報を取得（Cloudflare Dashboard設定）
-  const validUsername = process.env.BASIC_AUTH_USER || 'mn'
-  const validPassword = process.env.BASIC_AUTH_PASS || '39'
+  const validUsername = process.env.BASIC_AUTH_USER
+  const validPassword = process.env.BASIC_AUTH_PASS
+
+  if (!validUsername || !validPassword) {
+    console.error('BASIC_AUTH_USER and BASIC_AUTH_PASS must be set in environment variables')
+    return false
+  }
 
   return username === validUsername && password === validPassword
 }

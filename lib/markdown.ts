@@ -1,3 +1,11 @@
+import { marked } from 'marked'
+
+// Configure marked options
+marked.setOptions({
+  gfm: true,
+  breaks: true,
+})
+
 export function formatDate(dateString: string): string {
   const date = new Date(dateString)
   const year = date.getFullYear()
@@ -7,27 +15,18 @@ export function formatDate(dateString: string): string {
 }
 
 export function parseMarkdown(markdown: string): string {
-  // シンプルなMarkdown→HTML変換（後で marked を追加）
-  return markdown
-    .split('\n')
-    .map(line => {
-      // 見出し
-      if (line.startsWith('## ')) {
-        return `<h2>${line.slice(3)}</h2>`
-      }
-      if (line.startsWith('# ')) {
-        return `<h1>${line.slice(2)}</h1>`
-      }
-      // リンク
-      line = line.replace(/\[([^\]]+)\]\(([^\)]+)\)/g, '<a href="$2">$1</a>')
-      // 画像
-      line = line.replace(/!\[([^\]]*)\]\(([^\)]+)\)/g, '<img src="$2" alt="$1" />')
-      // 段落
-      if (line.trim()) {
-        return `<p>${line}</p>`
-      }
-      return ''
-    })
-    .join('\n')
+  // Hugoのショートコードを変換
+  let processed = markdown
+  
+  // YouTube shortcode: {{< youtube VIDEO_ID >}} → iframe
+  processed = processed.replace(
+    /\{\{<\s*youtube\s+([a-zA-Z0-9_-]+)\s*>\}\}/g,
+    '<div class="youtube-embed"><iframe width="560" height="315" src="https://www.youtube.com/embed/$1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>'
+  )
+  
+  // Markdownを解析
+  const html = marked.parse(processed) as string
+  
+  return html
 }
 
