@@ -7,28 +7,8 @@ interface PostCardProps {
   showContent?: boolean
 }
 
-function truncateHtml(html: string, maxLength: number): string {
-  // Create a temporary div to parse HTML
-  if (typeof window === 'undefined') {
-    // Server-side: simple truncation
-    const plainText = html.replace(/<[^>]*>/g, '')
-    if (plainText.length <= maxLength) return html
-    
-    // Find a good breaking point (up to maxLength chars)
-    const truncated = html.substring(0, maxLength * 3) // Allow some HTML overhead
-    return truncated + '...'
-  }
-  return html
-}
-
 export default function PostCard({ post, showContent = false }: PostCardProps) {
-  let htmlContent = null
-  
-  if (showContent) {
-    const fullHtml = parseMarkdown(post.content)
-    // Truncate to first 600 characters of HTML (includes images, YouTube, etc.)
-    htmlContent = truncateHtml(fullHtml, 600)
-  }
+  const htmlContent = showContent ? parseMarkdown(post.content) : null
 
   return (
     <Link href={`/${post.slug}`} className="no-underline">
