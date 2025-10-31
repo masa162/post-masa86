@@ -138,7 +138,7 @@ export default async function PostsPage({ searchParams }: PostsPageProps) {
             <>
               <div className="posts-grid">
                 {paginatedPosts.map((post) => (
-                  <PostCard key={post.id} post={post} showContent={true} />
+                  <PostCard key={post.id} post={post} />
                 ))}
               </div>
               

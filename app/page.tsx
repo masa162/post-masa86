@@ -33,7 +33,7 @@ export default async function Home({ searchParams }: HomePageProps) {
             <>
               <div className="posts-grid">
                 {posts.map((post) => (
-                  <PostCard key={post.id} post={post} showContent={true} />
+                  <PostCard key={post.id} post={post} />
                 ))}
               </div>
               

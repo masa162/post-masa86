@@ -1,8 +1,6 @@
-'use client'
-
-import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 import { Post } from '@/lib/types'
-import { formatDate, parseMarkdown } from '@/lib/markdown'
+import { formatDate } from '@/lib/markdown'
 
 interface PostCardProps {
   post: Post
@@ -10,53 +8,29 @@ interface PostCardProps {
 }
 
 export default function PostCard({ post, showContent = false }: PostCardProps) {
-  const router = useRouter()
-  const htmlContent = showContent ? parseMarkdown(post.content) : null
-
-  const handleClick = (e: React.MouseEvent) => {
-    // リンク内のリンクをクリックした場合は、親のクリックイベントをキャンセル
-    if ((e.target as HTMLElement).tagName === 'A') {
-      return
-    }
-    // それ以外の場合は、記事ページへ遷移
-    router.push(`/${post.slug}`)
-  }
+  // dangerouslySetInnerHTMLを使わず、プレーンテキストプレビューのみ
+  const preview = post.content.substring(0, 150).replace(/<[^>]*>/g, '') + '...'
 
   return (
-    <article 
-      className="post-card post-card-clickable" 
-      onClick={handleClick}
-      style={{ cursor: 'pointer' }}
-    >
-      <div className="post-card-header">
-        <h2 className="post-card-title">
-          {post.title}
-        </h2>
-        <p className="post-card-date">{formatDate(post.created_at)}</p>
-      </div>
-      
-      {showContent && htmlContent ? (
-        <div 
-          className="post-card-content-preview post-content"
-          dangerouslySetInnerHTML={{ __html: htmlContent }}
-        />
-      ) : (
+    <article className="post-card">
+      <Link href={`/${post.slug}`} className="post-card-link">
+        <div className="post-card-header">
+          <h2 className="post-card-title">{post.title}</h2>
+          <p className="post-card-date">{formatDate(post.created_at)}</p>
+        </div>
+        
         <div className="post-card-content">
-          <p className="post-card-summary">
-            {post.content.substring(0, 150)}...
-          </p>
+          <p className="post-card-summary">{preview}</p>
         </div>
-      )}
-      
-      {post.tags && post.tags.length > 0 && (
-        <div className="post-card-tags">
-          {post.tags.slice(0, 3).map((tag) => (
-            <span key={tag} className="post-card-tag">
-              #{tag}
-            </span>
-          ))}
-        </div>
-      )}
+        
+        {post.tags && post.tags.length > 0 && (
+          <div className="post-card-tags">
+            {post.tags.slice(0, 3).map((tag) => (
+              <span key={tag} className="post-card-tag">#{tag}</span>
+            ))}
+          </div>
+        )}
+      </Link>
     </article>
   )
 }
