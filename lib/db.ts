@@ -54,5 +54,29 @@ export const db = {
       return []
     }
   },
+
+  async getPostBySlug(slug: string): Promise<Post | null> {
+    try {
+      const DB = getD1()
+      if (!DB) {
+        console.warn('D1 not available')
+        return null
+      }
+      
+      const result = await DB.prepare(
+        'SELECT * FROM posts WHERE slug = ?'
+      ).bind(slug).first() as any
+      
+      if (!result) return null
+      
+      return {
+        ...result,
+        tags: JSON.parse(result.tags || '[]')
+      } as Post
+    } catch (error) {
+      console.error('Error fetching post by slug:', error)
+      return null
+    }
+  },
 }
 
