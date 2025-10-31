@@ -16,7 +16,7 @@ interface HomePageProps {
 export default async function Home({ searchParams }: HomePageProps) {
   const params = await searchParams
   const currentPage = parseInt(params.page || '1')
-  const postsPerPage = 10
+  const postsPerPage = 5 // Show 5 posts on home page
   
   const { posts, total } = await db.getPostsWithPagination(currentPage, postsPerPage)
   const tags = await db.getAllTags()
@@ -33,7 +33,7 @@ export default async function Home({ searchParams }: HomePageProps) {
             <>
               <div className="posts-grid">
                 {posts.map((post) => (
-                  <PostCard key={post.id} post={post} />
+                  <PostCard key={post.id} post={post} showContent={true} />
                 ))}
               </div>
               

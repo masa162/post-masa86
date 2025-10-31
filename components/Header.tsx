@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
+import { usePathname } from 'next/navigation'
 
 export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
@@ -60,6 +61,17 @@ export default function Header() {
         </div>
         <div className="mobile-sidebar-content">
           <p className="mb-4 text-sm">記録と感覚の交差点、unbelongの雑記ブログ。</p>
+          <nav className="space-y-2">
+            <Link href="/" className="block py-2 text-sm hover:text-blue-600" onClick={toggleMobileMenu}>
+              ホーム
+            </Link>
+            <Link href="/posts" className="block py-2 text-sm hover:text-blue-600" onClick={toggleMobileMenu}>
+              記事一覧
+            </Link>
+            <Link href="/search" className="block py-2 text-sm hover:text-blue-600" onClick={toggleMobileMenu}>
+              検索
+            </Link>
+          </nav>
         </div>
       </div>
     </>

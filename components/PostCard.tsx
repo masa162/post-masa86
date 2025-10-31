@@ -1,12 +1,15 @@
 import Link from 'next/link'
 import { Post } from '@/lib/types'
-import { formatDate } from '@/lib/markdown'
+import { formatDate, parseMarkdown } from '@/lib/markdown'
 
 interface PostCardProps {
   post: Post
+  showContent?: boolean
 }
 
-export default function PostCard({ post }: PostCardProps) {
+export default function PostCard({ post, showContent = false }: PostCardProps) {
+  const htmlContent = showContent ? parseMarkdown(post.content) : null
+
   return (
     <Link href={`/${post.slug}`} className="no-underline">
       <article className="post-card post-card-clickable">
@@ -17,11 +20,18 @@ export default function PostCard({ post }: PostCardProps) {
           <p className="post-card-date">{formatDate(post.created_at)}</p>
         </div>
         
-        <div className="post-card-content">
-          <p className="post-card-summary">
-            {post.content.substring(0, 150)}...
-          </p>
-        </div>
+        {showContent && htmlContent ? (
+          <div 
+            className="post-card-content-full post-content"
+            dangerouslySetInnerHTML={{ __html: htmlContent }}
+          />
+        ) : (
+          <div className="post-card-content">
+            <p className="post-card-summary">
+              {post.content.substring(0, 150)}...
+            </p>
+          </div>
+        )}
         
         {post.tags && post.tags.length > 0 && (
           <div className="post-card-tags">
