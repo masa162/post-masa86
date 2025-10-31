@@ -407,6 +407,8 @@ body {
   flex-direction: column;
   height: 100%;
   padding: 15px;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .post-card-clickable {
@@ -483,23 +485,37 @@ body {
   max-height: 300px;
   overflow: hidden;
   position: relative;
+  width: 100%;
+  max-width: 100%;
 }
 
 .post-card-content-preview img {
-  max-width: 100%;
-  height: auto;
+  max-width: 100% !important;
+  width: auto !important;
+  height: auto !important;
   margin: 10px 0;
   border-radius: 4px;
   display: block;
+  object-fit: contain;
 }
 
 .post-card-content-preview .youtube-embed {
-  max-width: 100%;
+  max-width: 100% !important;
+  width: 100% !important;
   margin: 10px 0;
+  position: relative;
+  padding-bottom: 56.25%;
+  height: 0;
+  overflow: hidden;
 }
 
 .post-card-content-preview .youtube-embed iframe {
-  max-width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 100% !important;
   border-radius: 4px;
 }
 
@@ -519,15 +535,16 @@ body {
   color: #333333;
 }
 
-.post-card-content-preview:after {
+.post-card-content-preview::after {
   content: "";
   position: absolute;
   bottom: 0;
   left: 0;
   width: 100%;
   height: 60px;
-  background: linear-gradient(to bottom, rgba(255,255,255,0), #ffffff 80%);
+  background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0.95) 80%);
   pointer-events: none;
+  z-index: 1;
 }
 
 .post-card-tags {
@@ -583,6 +600,10 @@ body {
   line-height: 1.6;
   color: #333333;
   margin: 15px 0;
+  width: 100%;
+  max-width: 100%;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
 }
 
 .post-content p {
@@ -627,8 +648,9 @@ a:hover {
 
 /* Images */
 img {
-  max-width: 100%;
-  height: auto;
+  max-width: 100% !important;
+  width: auto !important;
+  height: auto !important;
   display: block;
   margin: 15px 0;
 }
@@ -1005,8 +1027,8 @@ nav {
     background-color: #334455;
   }
 
-  .post-card-content-preview:after {
-    background: linear-gradient(to bottom, transparent, #1a1a1a);
+  .post-card-content-preview::after {
+    background: linear-gradient(to bottom, rgba(26,26,26,0), rgba(26,26,26,0.95) 80%);
   }
 }
 
