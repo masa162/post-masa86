@@ -949,16 +949,24 @@ nav {
   background-color: #e6f2ff;
 }
 
+/* Toggle Arrows */
+.toggle-arrow {
+  font-size: 12px;
+  width: 12px;
+  text-align: center;
+  transition: all 0.2s ease;
+}
+
+.toggle-arrow.open {
+  color: #333333;
+}
+
+.toggle-arrow.closed {
+  color: #333333;
+}
+
 /* Dark mode for archive */
 @media (prefers-color-scheme: dark) {
-  .archive-months {
-    border-left-color: #555;
-  }
-
-  .archive-posts {
-    border-left-color: #444;
-  }
-
   .archive-year-toggle,
   .archive-month-toggle {
     color: #e0e0e0;
@@ -966,7 +974,12 @@ nav {
 
   .archive-year-toggle:hover,
   .archive-month-toggle:hover {
-    color: #66b3ff;
+    color: #b0b0b0;
+  }
+
+  .toggle-arrow.open,
+  .toggle-arrow.closed {
+    color: #e0e0e0;
   }
 
   .archive-post a {
@@ -978,7 +991,7 @@ nav {
   }
 
   .archive-post a:before {
-    color: #777;
+    color: #999;
   }
 
   .archive-post.active a {
