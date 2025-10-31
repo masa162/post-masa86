@@ -32,6 +32,12 @@ function createMockD1(): D1Database {
   } as any
 }
 
+export interface PostInput {
+  title: string
+  content: string
+  tags: string[]
+}
+
 export const db = {
   async getPosts(limit = 20): Promise<Post[]> {
     try {
@@ -77,6 +83,93 @@ export const db = {
       console.error('Error fetching post by slug:', error)
       return null
     }
+  },
+
+  async getPostById(id: number): Promise<Post | null> {
+    try {
+      const DB = getD1()
+      if (!DB) return null
+      
+      const result = await DB.prepare(
+        'SELECT * FROM posts WHERE id = ?'
+      ).bind(id).first() as any
+      
+      if (!result) return null
+      
+      return {
+        ...result,
+        tags: JSON.parse(result.tags || '[]')
+      } as Post
+    } catch (error) {
+      console.error('Error fetching post by id:', error)
+      return null
+    }
+  },
+
+  async createPost(post: PostInput): Promise<Post> {
+    const DB = getD1()
+    if (!DB) throw new Error('D1 not available')
+
+    const now = new Date().toISOString()
+    
+    // Get next slug number
+    const lastPost = await DB.prepare(
+      'SELECT slug FROM posts ORDER BY id DESC LIMIT 1'
+    ).first() as any
+    
+    let nextNum = 1
+    if (lastPost && lastPost.slug) {
+      nextNum = parseInt(lastPost.slug) + 1
+    }
+    const slug = nextNum.toString().padStart(4, '0')
+
+    const result = await DB.prepare(
+      'INSERT INTO posts (slug, title, content, tags, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?)'
+    ).bind(
+      slug,
+      post.title,
+      post.content,
+      JSON.stringify(post.tags),
+      now,
+      now
+    ).run()
+
+    return {
+      id: result.meta.last_row_id,
+      slug,
+      title: post.title,
+      content: post.content,
+      tags: post.tags,
+      created_at: now,
+      updated_at: now,
+    }
+  },
+
+  async updatePost(id: number, post: PostInput): Promise<Post | null> {
+    const DB = getD1()
+    if (!DB) throw new Error('D1 not available')
+
+    const now = new Date().toISOString()
+
+    await DB.prepare(
+      'UPDATE posts SET title = ?, content = ?, tags = ?, updated_at = ? WHERE id = ?'
+    ).bind(
+      post.title,
+      post.content,
+      JSON.stringify(post.tags),
+      now,
+      id
+    ).run()
+
+    return await this.getPostById(id)
+  },
+
+  async deletePost(id: number): Promise<boolean> {
+    const DB = getD1()
+    if (!DB) throw new Error('D1 not available')
+
+    await DB.prepare('DELETE FROM posts WHERE id = ?').bind(id).run()
+    return true
   },
 }
 
