@@ -8,7 +8,6 @@ import { formatDate, parseMarkdown } from '@/lib/markdown'
 
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
-export const runtime = 'edge'
 
 interface PostPageProps {
   params: Promise<{

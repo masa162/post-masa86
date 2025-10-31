@@ -9,8 +9,6 @@ import Sidebar from '@/components/Sidebar'
 import SearchBox from '@/components/SearchBox'
 import { Post } from '@/lib/types'
 
-export const runtime = 'edge'
-
 function SearchContent() {
   const searchParams = useSearchParams()
   const query = searchParams.get('q') || ''

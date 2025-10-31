@@ -3,7 +3,6 @@ import { db } from '@/lib/db'
 import { checkBasicAuth, createAuthResponse } from '@/lib/auth'
 
 export const dynamic = 'force-dynamic'
-export const runtime = 'edge'
 
 // GET /api/posts
 export async function GET(request: NextRequest) {
