@@ -18,6 +18,16 @@ export default function Sidebar({ tags = [], archive = {}, currentSlug }: Sideba
         </div>
       </div>
 
+      {/* Posts List Link Section */}
+      <div className="sidebar-section">
+        <h3 className="sidebar-title">記事一覧</h3>
+        <div className="sidebar-content">
+          <Link href="/posts" className="text-blue-600 hover:text-blue-800">
+            すべての記事を見る →
+          </Link>
+        </div>
+      </div>
+
       {/* Archive Section */}
       {Object.keys(archive).length > 0 && (
         <div className="sidebar-section">
