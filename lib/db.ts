@@ -61,6 +61,39 @@ export const db = {
     }
   },
 
+  async getPostsWithPagination(page = 1, limit = 10): Promise<{ posts: Post[], total: number, hasMore: boolean }> {
+    try {
+      const DB = getD1()
+      if (!DB) {
+        console.warn('D1 not available')
+        return { posts: [], total: 0, hasMore: false }
+      }
+      
+      const offset = (page - 1) * limit
+      
+      // Get total count
+      const countResult = await DB.prepare('SELECT COUNT(*) as count FROM posts').first() as any
+      const total = countResult?.count || 0
+      
+      // Get posts for current page
+      const results = await DB.prepare(
+        'SELECT * FROM posts ORDER BY created_at DESC LIMIT ? OFFSET ?'
+      ).bind(limit, offset).all()
+      
+      const posts = results.results.map((row: any) => ({
+        ...row,
+        tags: JSON.parse(row.tags || '[]')
+      }))
+      
+      const hasMore = offset + limit < total
+      
+      return { posts, total, hasMore }
+    } catch (error) {
+      console.error('Error fetching posts with pagination:', error)
+      return { posts: [], total: 0, hasMore: false }
+    }
+  },
+
   async getPostBySlug(slug: string): Promise<Post | null> {
     try {
       const DB = getD1()

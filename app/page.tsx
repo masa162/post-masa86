@@ -3,14 +3,24 @@ import Header from '@/components/Header'
 import PostCard from '@/components/PostCard'
 import Sidebar from '@/components/Sidebar'
 import SearchBox from '@/components/SearchBox'
+import Pagination from '@/components/Pagination'
 
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
 export const runtime = 'edge'
 
-export default async function Home() {
-  const posts = await db.getPosts(5)
+interface HomePageProps {
+  searchParams: Promise<{ page?: string }>
+}
+
+export default async function Home({ searchParams }: HomePageProps) {
+  const params = await searchParams
+  const currentPage = parseInt(params.page || '1')
+  const postsPerPage = 10
+  
+  const { posts, total } = await db.getPostsWithPagination(currentPage, postsPerPage)
   const tags = await db.getAllTags()
+  const totalPages = Math.ceil(total / postsPerPage)
 
   return (
     <div className="max-w-6xl mx-auto p-8">
@@ -19,11 +29,25 @@ export default async function Home() {
       <div className="flex gap-8">
         <main className="flex-1">
           {posts.length > 0 ? (
-            <div className="space-y-4">
-              {posts.map((post) => (
-                <PostCard key={post.id} post={post} />
-              ))}
-            </div>
+            <>
+              <div className="space-y-4">
+                {posts.map((post) => (
+                  <PostCard key={post.id} post={post} />
+                ))}
+              </div>
+              
+              {totalPages > 1 && (
+                <Pagination 
+                  currentPage={currentPage} 
+                  totalPages={totalPages} 
+                  basePath="/"
+                />
+              )}
+              
+              <div className="mt-4 text-sm text-gray-600 text-center">
+                {total}件中 {(currentPage - 1) * postsPerPage + 1}～{Math.min(currentPage * postsPerPage, total)}件を表示
+              </div>
+            </>
           ) : (
             <p className="text-gray-600">記事がありません</p>
           )}
