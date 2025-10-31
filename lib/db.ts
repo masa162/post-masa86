@@ -171,5 +171,64 @@ export const db = {
     await DB.prepare('DELETE FROM posts WHERE id = ?').bind(id).run()
     return true
   },
+
+  async getPostsByTag(tag: string, limit = 20): Promise<Post[]> {
+    try {
+      const DB = getD1()
+      if (!DB) return []
+      
+      const results = await DB.prepare(
+        "SELECT * FROM posts WHERE tags LIKE ? ORDER BY created_at DESC LIMIT ?"
+      ).bind(`%"${tag}"%`, limit).all()
+      
+      return results.results.map((row: any) => ({
+        ...row,
+        tags: JSON.parse(row.tags || '[]')
+      }))
+    } catch (error) {
+      console.error('Error fetching posts by tag:', error)
+      return []
+    }
+  },
+
+  async getAllTags(): Promise<string[]> {
+    try {
+      const DB = getD1()
+      if (!DB) return []
+      
+      const results = await DB.prepare(
+        'SELECT DISTINCT tags FROM posts'
+      ).all()
+      
+      const tagSet = new Set<string>()
+      results.results.forEach((row: any) => {
+        const tags = JSON.parse(row.tags || '[]')
+        tags.forEach((tag: string) => tagSet.add(tag))
+      })
+      return Array.from(tagSet).sort()
+    } catch (error) {
+      console.error('Error fetching tags:', error)
+      return []
+    }
+  },
+
+  async searchPosts(query: string, limit = 20): Promise<Post[]> {
+    try {
+      const DB = getD1()
+      if (!DB) return []
+      
+      const results = await DB.prepare(
+        'SELECT * FROM posts WHERE title LIKE ? OR content LIKE ? ORDER BY created_at DESC LIMIT ?'
+      ).bind(`%${query}%`, `%${query}%`, limit).all()
+      
+      return results.results.map((row: any) => ({
+        ...row,
+        tags: JSON.parse(row.tags || '[]')
+      }))
+    } catch (error) {
+      console.error('Error searching posts:', error)
+      return []
+    }
+  },
 }
 

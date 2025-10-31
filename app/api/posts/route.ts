@@ -10,7 +10,18 @@ export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url)
     const limit = parseInt(searchParams.get('limit') || '20')
-    const posts = await db.getPosts(limit)
+    const tag = searchParams.get('tag')
+    const search = searchParams.get('search')
+
+    let posts
+    if (tag) {
+      posts = await db.getPostsByTag(tag, limit)
+    } else if (search) {
+      posts = await db.searchPosts(search, limit)
+    } else {
+      posts = await db.getPosts(limit)
+    }
+
     return NextResponse.json({ posts })
   } catch (error) {
     console.error('Error fetching posts:', error)
