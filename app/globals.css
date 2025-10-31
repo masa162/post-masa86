@@ -198,6 +198,15 @@ body {
   padding: 15px;
 }
 
+.post-card-clickable {
+  cursor: pointer;
+}
+
+.post-card-clickable:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
 .post-card:hover {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   transform: translateY(-2px);
@@ -229,12 +238,11 @@ body {
   margin: 0 0 6px 0;
 }
 
-.post-card-title a {
+.post-card-title {
   color: #333333;
-  text-decoration: none;
 }
 
-.post-card-title a:hover {
+.post-card-clickable:hover .post-card-title {
   color: #0066cc;
 }
 
@@ -271,21 +279,6 @@ body {
   font-weight: 500;
 }
 
-.post-card-footer {
-  border-top: 1px solid #f0f0f0;
-  padding-top: 8px;
-}
-
-.read-more-link {
-  font-size: 12px;
-  color: #0066cc;
-  text-decoration: none;
-  font-weight: 500;
-}
-
-.read-more-link:hover {
-  color: #004499;
-}
 
 /* Post Title */
 .post-title {
@@ -618,6 +611,59 @@ nav {
   .post-content {
     font-size: 15px;
   }
+}
+
+/* Scroll to Top Button */
+.scroll-to-top {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 50px;
+  height: 50px;
+  background-color: #0066cc;
+  color: #ffffff;
+  border: none;
+  border-radius: 50%;
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.scroll-to-top:hover {
+  background-color: #004499;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.scroll-to-top:active {
+  transform: translateY(-1px);
+}
+
+@media (max-width: 768px) {
+  .scroll-to-top {
+    bottom: 20px;
+    right: 20px;
+    width: 45px;
+    height: 45px;
+    font-size: 20px;
+  }
+}
+
+/* Active Archive Item Highlight */
+.archive-post.active a {
+  font-weight: 600;
+  color: #004499;
+}
+
+.archive-post.active a:before {
+  content: "◉";
+  color: #0066cc;
 }
 
 /* Minimal clean design - no borders, no shadows, no complex styling */

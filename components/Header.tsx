@@ -59,7 +59,7 @@ export default function Header() {
           </button>
         </div>
         <div className="mobile-sidebar-content">
-          {/* Mobile menu content will be added here */}
+          <p className="mb-4 text-sm">記録と感覚の交差点、unbelongの雑記ブログ。</p>
         </div>
       </div>
     </>

@@ -14,9 +14,10 @@ interface ArchiveProps {
       }>
     }
   }
+  currentSlug?: string
 }
 
-export default function Archive({ archive }: ArchiveProps) {
+export default function Archive({ archive, currentSlug }: ArchiveProps) {
   const years = Object.keys(archive).sort((a, b) => parseInt(b) - parseInt(a))
   const [openYears, setOpenYears] = useState<Set<string>>(new Set([years[0]]))
   const [openMonths, setOpenMonths] = useState<Set<string>>(
@@ -95,7 +96,10 @@ export default function Archive({ archive }: ArchiveProps) {
                       {isMonthOpen && (
                         <div className="archive-posts">
                           {posts.map(post => (
-                            <div key={post.id} className="archive-post">
+                            <div 
+                              key={post.id} 
+                              className={`archive-post ${currentSlug === post.slug ? 'active' : ''}`}
+                            >
                               <Link href={`/${post.slug}`}>
                                 {post.title}
                               </Link>
@@ -114,4 +118,3 @@ export default function Archive({ archive }: ArchiveProps) {
     </div>
   )
 }
-

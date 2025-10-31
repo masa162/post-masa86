@@ -69,7 +69,7 @@ export default async function PostPage({ params }: PostPageProps) {
         
         <aside className="sidebar">
           <SearchBox />
-          <Sidebar tags={tags} archive={archive} />
+          <Sidebar tags={tags} archive={archive} currentSlug={post.slug} />
         </aside>
       </div>
     </div>

@@ -4,9 +4,10 @@ import Archive from './Archive'
 interface SidebarProps {
   tags?: string[]
   archive?: any
+  currentSlug?: string
 }
 
-export default function Sidebar({ tags = [], archive = {} }: SidebarProps) {
+export default function Sidebar({ tags = [], archive = {}, currentSlug }: SidebarProps) {
   return (
     <aside className="sidebar">
       {/* About Section */}
@@ -22,7 +23,7 @@ export default function Sidebar({ tags = [], archive = {} }: SidebarProps) {
         <div className="sidebar-section">
           <h3 className="sidebar-title">アーカイブ</h3>
           <div className="sidebar-content">
-            <Archive archive={archive} />
+            <Archive archive={archive} currentSlug={currentSlug} />
           </div>
         </div>
       )}

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import Script from 'next/script'
+import ScrollToTop from '@/components/ScrollToTop'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -23,7 +24,10 @@ export default function RootLayout({
           strategy="afterInteractive"
         />
       </head>
-      <body>{children}</body>
+      <body>
+        {children}
+        <ScrollToTop />
+      </body>
     </html>
   )
 }
