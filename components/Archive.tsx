@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 
 interface ArchiveProps {
@@ -19,10 +19,46 @@ interface ArchiveProps {
 
 export default function Archive({ archive, currentSlug }: ArchiveProps) {
   const years = Object.keys(archive).sort((a, b) => parseInt(b) - parseInt(a))
-  const [openYears, setOpenYears] = useState<Set<string>>(new Set([years[0]]))
+  
+  // Find current post's year and month
+  let currentYear = years[0]
+  let currentMonth = ''
+  
+  if (currentSlug) {
+    for (const year of years) {
+      for (const month of Object.keys(archive[year])) {
+        const posts = archive[year][month]
+        if (posts.some(post => post.slug === currentSlug)) {
+          currentYear = year
+          currentMonth = month
+          break
+        }
+      }
+      if (currentMonth) break
+    }
+  }
+
+  const [openYears, setOpenYears] = useState<Set<string>>(new Set([currentYear]))
   const [openMonths, setOpenMonths] = useState<Set<string>>(
-    new Set(years[0] ? [`${years[0]}-${Object.keys(archive[years[0]])[0]}`] : [])
+    new Set(currentMonth ? [`${currentYear}-${currentMonth}`] : 
+           (years[0] ? [`${years[0]}-${Object.keys(archive[years[0]])[0]}`] : []))
   )
+
+  // Update open state when currentSlug changes
+  useEffect(() => {
+    if (currentSlug) {
+      for (const year of years) {
+        for (const month of Object.keys(archive[year])) {
+          const posts = archive[year][month]
+          if (posts.some(post => post.slug === currentSlug)) {
+            setOpenYears(new Set([year]))
+            setOpenMonths(new Set([`${year}-${month}`]))
+            return
+          }
+        }
+      }
+    }
+  }, [currentSlug, years, archive])
 
   const toggleYear = (year: string) => {
     const newOpenYears = new Set(openYears)

@@ -885,15 +885,54 @@ nav {
   }
 }
 
-/* Active Archive Item Highlight */
+/* Active Archive Item Highlight - 目次スタイル */
+.archive-post.active {
+  position: relative;
+}
+
 .archive-post.active a {
-  font-weight: 600;
-  color: #004499;
+  font-weight: 700;
+  color: #0066cc;
+  background-color: #f0f8ff;
+  padding-left: 20px;
+  border-radius: 4px;
 }
 
 .archive-post.active a:before {
   content: "◉";
   color: #0066cc;
+  font-size: 14px;
+  left: 2px;
+  font-weight: bold;
+}
+
+.archive-post.active a:hover {
+  color: #004499;
+  background-color: #e6f2ff;
+}
+
+/* Dark mode for active archive */
+@media (prefers-color-scheme: dark) {
+  .archive-months {
+    border-left-color: #404040;
+  }
+
+  .archive-posts {
+    border-left-color: #303030;
+  }
+
+  .archive-post.active a {
+    background-color: #2a3a4a;
+    color: #66b3ff;
+  }
+
+  .archive-post.active a:before {
+    color: #66b3ff;
+  }
+
+  .archive-post.active a:hover {
+    background-color: #334455;
+  }
 }
 
 /* Minimal clean design - no borders, no shadows, no complex styling */
