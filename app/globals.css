@@ -475,23 +475,61 @@ body {
   margin: 0;
 }
 
-.post-card-content-full {
+.post-card-content-preview {
   flex-grow: 1;
   margin-bottom: 10px;
   font-size: 14px;
   line-height: 1.6;
+  max-height: 400px;
+  overflow: hidden;
+  position: relative;
 }
 
-.post-card-content-full img,
-.post-card-content-full .youtube-embed {
+.post-card-content-preview img {
   max-width: 100%;
+  height: auto;
+  margin: 10px 0;
+  border-radius: 4px;
 }
 
-.post-card-content-full h1,
-.post-card-content-full h2,
-.post-card-content-full h3 {
+.post-card-content-preview .youtube-embed {
+  max-width: 100%;
+  margin: 10px 0;
+}
+
+.post-card-content-preview h1,
+.post-card-content-preview h2,
+.post-card-content-preview h3 {
   font-size: 16px;
-  margin: 10px 0 8px 0;
+  margin: 12px 0 8px 0;
+  color: #2d4a3a;
+}
+
+.post-card-content-preview h1 {
+  border-bottom: 2px solid #2d4a3a;
+  padding-bottom: 4px;
+}
+
+.post-card-content-preview h2 {
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 3px;
+}
+
+.post-card-content-preview p {
+  margin: 8px 0;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.post-card-content-preview:after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 40px;
+  background: linear-gradient(to bottom, transparent, #ffffff);
+  pointer-events: none;
 }
 
 .post-card-tags {
@@ -914,11 +952,11 @@ nav {
 /* Dark mode for archive */
 @media (prefers-color-scheme: dark) {
   .archive-months {
-    border-left-color: #444;
+    border-left-color: #555;
   }
 
   .archive-posts {
-    border-left-color: #333;
+    border-left-color: #444;
   }
 
   .archive-year-toggle,
@@ -940,7 +978,7 @@ nav {
   }
 
   .archive-post a:before {
-    color: #666;
+    color: #777;
   }
 
   .archive-post.active a {
@@ -954,6 +992,10 @@ nav {
 
   .archive-post.active a:hover {
     background-color: #334455;
+  }
+
+  .post-card-content-preview:after {
+    background: linear-gradient(to bottom, transparent, #1a1a1a);
   }
 }
 
