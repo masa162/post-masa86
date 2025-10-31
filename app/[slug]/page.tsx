@@ -28,47 +28,45 @@ export default async function PostPage({ params }: PostPageProps) {
   const tags = await db.getAllTags()
 
   return (
-    <div className="max-w-6xl mx-auto p-8">
+    <div className="main-container">
       <Header />
       
-      <div className="flex gap-8">
-        <article className="flex-1">
-          <h1 className="text-3xl font-bold text-gray-900 mb-4">{post.title}</h1>
-          <p className="text-sm text-gray-600 mb-8">{formatDate(post.created_at)}</p>
-          
-          <div
-            className="post-content"
-            dangerouslySetInnerHTML={{ __html: htmlContent }}
-          />
+      <div className="content-wrapper">
+        <article className="main-content">
+          <div className="post-single">
+            <div className="post-header">
+              <h1 className="post-title-single">{post.title}</h1>
+              <p className="post-date">{formatDate(post.created_at)}</p>
+            </div>
+            
+            <div
+              className="post-content-single post-content"
+              dangerouslySetInnerHTML={{ __html: htmlContent }}
+            />
 
-          {post.tags && post.tags.length > 0 && (
-            <div className="mt-8 pt-4 border-t">
-              <h3 className="text-sm font-semibold mb-2">タグ</h3>
-              <div className="flex gap-2">
+            {post.tags && post.tags.length > 0 && (
+              <div className="post-tags">
                 {post.tags.map((tag) => (
                   <Link
                     key={tag}
                     href={`/tags/${encodeURIComponent(tag)}`}
-                    className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded hover:bg-gray-200 no-underline"
+                    className="tag-link"
                   >
                     #{tag}
                   </Link>
                 ))}
               </div>
-            </div>
-          )}
+            )}
 
-          <div className="mt-8">
-            <Link
-              href="/"
-              className="text-blue-600 hover:text-blue-800 text-sm"
-            >
-              ← ホームに戻る
-            </Link>
+            <div className="mt-8">
+              <Link href="/" className="text-blue-600 hover:text-blue-800 text-sm">
+                ← ホームに戻る
+              </Link>
+            </div>
           </div>
         </article>
         
-        <aside className="hidden lg:block">
+        <aside className="sidebar">
           <SearchBox />
           <Sidebar tags={tags} />
         </aside>

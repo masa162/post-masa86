@@ -22,24 +22,24 @@ export default async function TagPage({ params }: TagPageProps) {
   const allTags = await db.getAllTags()
 
   return (
-    <div className="max-w-6xl mx-auto p-8">
+    <div className="main-container">
       <Header />
       
-      <div className="flex gap-8">
-        <main className="flex-1">
-          <div className="mb-6">
-            <h2 className="text-2xl font-semibold mb-2">タグ: #{tag}</h2>
-            <p className="text-sm text-gray-600">{posts.length}件の記事</p>
+      <div className="content-wrapper">
+        <main className="main-content">
+          <div className="taxonomy-page">
+            <h2 className="taxonomy-title">タグ: #{tag}</h2>
+            <p className="taxonomy-count">{posts.length}件の記事</p>
             <Link
               href="/"
-              className="inline-block mt-4 text-sm text-blue-600 hover:text-blue-800 no-underline"
+              className="inline-block text-sm text-blue-600 hover:text-blue-800 no-underline"
             >
               ← ホームに戻る
             </Link>
           </div>
 
           {posts.length > 0 ? (
-            <div className="space-y-4">
+            <div className="posts-grid" style={{ marginTop: '20px' }}>
               {posts.map((post) => (
                 <PostCard key={post.id} post={post} />
               ))}
@@ -49,7 +49,7 @@ export default async function TagPage({ params }: TagPageProps) {
           )}
         </main>
         
-        <aside className="hidden lg:block">
+        <aside className="sidebar">
           <SearchBox />
           <Sidebar tags={allTags} />
         </aside>

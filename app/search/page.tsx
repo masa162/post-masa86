@@ -55,15 +55,15 @@ function SearchContent() {
   }
 
   return (
-    <div className="max-w-6xl mx-auto p-8">
+    <div className="main-container">
       <Header />
       
-      <div className="flex gap-8">
-        <main className="flex-1">
-          <div className="mb-6">
-            <h2 className="text-2xl font-semibold mb-4">検索結果</h2>
+      <div className="content-wrapper">
+        <main className="main-content">
+          <div className="taxonomy-page">
+            <h2 className="taxonomy-title">検索結果</h2>
             {query && (
-              <p className="text-sm text-gray-600 mb-4">
+              <p className="taxonomy-count">
                 「{query}」の検索結果: {posts.length}件
               </p>
             )}
@@ -82,7 +82,7 @@ function SearchContent() {
               該当する記事が見つかりませんでした
             </div>
           ) : query && posts.length > 0 ? (
-            <div className="space-y-4">
+            <div className="posts-grid" style={{ marginTop: '20px' }}>
               {posts.map((post) => (
                 <PostCard key={post.id} post={post} />
               ))}
@@ -94,7 +94,7 @@ function SearchContent() {
           )}
         </main>
         
-        <aside className="hidden lg:block">
+        <aside className="sidebar">
           <SearchBox />
           <Sidebar tags={tags} />
         </aside>

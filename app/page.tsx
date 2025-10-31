@@ -23,14 +23,14 @@ export default async function Home({ searchParams }: HomePageProps) {
   const totalPages = Math.ceil(total / postsPerPage)
 
   return (
-    <div className="max-w-6xl mx-auto p-8">
+    <div className="main-container">
       <Header />
       
-      <div className="flex gap-8">
-        <main className="flex-1">
+      <div className="content-wrapper">
+        <main className="main-content">
           {posts.length > 0 ? (
             <>
-              <div className="space-y-4">
+              <div className="posts-grid">
                 {posts.map((post) => (
                   <PostCard key={post.id} post={post} />
                 ))}
@@ -53,7 +53,7 @@ export default async function Home({ searchParams }: HomePageProps) {
           )}
         </main>
         
-        <aside className="hidden lg:block">
+        <aside className="sidebar">
           <SearchBox />
           <Sidebar tags={tags} />
         </aside>

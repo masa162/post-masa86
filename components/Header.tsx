@@ -1,14 +1,67 @@
+'use client'
+
 import Link from 'next/link'
+import { useState, useEffect } from 'react'
 
 export default function Header() {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen)
+  }
+
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = ''
+    }
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [isMobileMenuOpen])
+
   return (
-    <header className="mb-8">
-      <h1 className="text-3xl font-bold">
-        <Link href="/" className="text-gray-900 hover:text-blue-600 no-underline">
-          中山雑記
-        </Link>
-      </h1>
-    </header>
+    <>
+      <header className="site-header">
+        <div className="header-content">
+          <h1 className="site-title">
+            <Link href="/">中山雑記</Link>
+          </h1>
+          <button
+            className={`hamburger-menu ${isMobileMenuOpen ? 'active' : ''}`}
+            onClick={toggleMobileMenu}
+            aria-label="メニューを開く"
+          >
+            <span className="hamburger-line"></span>
+            <span className="hamburger-line"></span>
+            <span className="hamburger-line"></span>
+          </button>
+        </div>
+      </header>
+      
+      {/* モバイル用ハンバーガーメニューオーバーレイ */}
+      <div
+        className={`mobile-menu-overlay ${isMobileMenuOpen ? 'active' : ''}`}
+        onClick={toggleMobileMenu}
+      ></div>
+      
+      {/* モバイル用サイドメニュー */}
+      <div className={`mobile-sidebar ${isMobileMenuOpen ? 'active' : ''}`}>
+        <div className="mobile-sidebar-header">
+          <h3>メニュー</h3>
+          <button
+            className="mobile-menu-close"
+            onClick={toggleMobileMenu}
+            aria-label="メニューを閉じる"
+          >
+            ×
+          </button>
+        </div>
+        <div className="mobile-sidebar-content">
+          {/* Mobile menu content will be added here */}
+        </div>
+      </div>
+    </>
   )
 }
-

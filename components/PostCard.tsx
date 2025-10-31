@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { Post } from '@/lib/types'
+import { formatDate } from '@/lib/markdown'
 
 interface PostCardProps {
   post: Post
@@ -7,29 +8,35 @@ interface PostCardProps {
 
 export default function PostCard({ post }: PostCardProps) {
   return (
-    <article className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
-      <h2 className="text-xl font-semibold mb-2">
-        <Link
-          href={`/${post.slug}`}
-          className="text-gray-900 hover:text-blue-600 no-underline"
-        >
-          {post.title}
-        </Link>
-      </h2>
-      <p className="text-sm text-gray-600">Slug: {post.slug}</p>
+    <article className="post-card">
+      <div className="post-card-header">
+        <h2 className="post-card-title">
+          <Link href={`/${post.slug}`}>{post.title}</Link>
+        </h2>
+        <p className="post-card-date">{formatDate(post.created_at)}</p>
+      </div>
+      
+      <div className="post-card-content">
+        <p className="post-card-summary">
+          {post.content.substring(0, 150)}...
+        </p>
+      </div>
+      
       {post.tags && post.tags.length > 0 && (
-        <div className="mt-2 flex gap-2">
-          {post.tags.map((tag) => (
-            <span
-              key={tag}
-              className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded"
-            >
+        <div className="post-card-tags">
+          {post.tags.slice(0, 3).map((tag) => (
+            <span key={tag} className="post-card-tag">
               #{tag}
             </span>
           ))}
         </div>
       )}
+      
+      <div className="post-card-footer">
+        <Link href={`/${post.slug}`} className="read-more-link">
+          続きを読む →
+        </Link>
+      </div>
     </article>
   )
 }
-
