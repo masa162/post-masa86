@@ -101,7 +101,7 @@ export default function Archive({ archive, currentSlug }: ArchiveProps) {
               onClick={() => toggleYear(year)}
             >
               <span className={`toggle-arrow ${isYearOpen ? 'open' : 'closed'}`}>
-                {isYearOpen ? '▼' : '▽'}
+                {isYearOpen ? '▼' : '▶'}
               </span>
               <span className="archive-year-label">
                 {year} ({postCount})
@@ -122,7 +122,7 @@ export default function Archive({ archive, currentSlug }: ArchiveProps) {
                         onClick={() => toggleMonth(year, month)}
                       >
                         <span className={`toggle-arrow ${isMonthOpen ? 'open' : 'closed'}`}>
-                          {isMonthOpen ? '▼' : '▽'}
+                          {isMonthOpen ? '▼' : '▶'}
                         </span>
                         <span className="archive-month-label">
                           {month}月 ({posts.length})

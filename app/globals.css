@@ -952,6 +952,93 @@ nav {
   }
 }
 
+/* Hierarchical Archive */
+.archive-hierarchical {
+  margin: 0;
+  padding: 0;
+}
+
+/* Archive Year */
+.archive-year {
+  margin-bottom: 5px;
+}
+
+.archive-year-toggle {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 4px 0;
+  font-size: 14px;
+  font-weight: 500;
+  color: #333333;
+  user-select: none;
+}
+
+.archive-year-toggle:hover {
+  color: #666666;
+}
+
+.archive-year-label {
+  margin-left: 5px;
+}
+
+/* Archive Month */
+.archive-month {
+  margin-bottom: 3px;
+}
+
+.archive-month-toggle {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 3px 0;
+  margin-left: 15px;
+  font-size: 14px;
+  color: #333333;
+  user-select: none;
+}
+
+.archive-month-toggle:hover {
+  color: #666666;
+}
+
+.archive-month-label {
+  margin-left: 5px;
+}
+
+/* Archive Posts */
+.archive-posts {
+  margin-left: 30px;
+  margin-bottom: 5px;
+}
+
+.archive-post {
+  margin: 3px 0;
+}
+
+.archive-post a {
+  font-size: 13px;
+  color: #0066cc;
+  text-decoration: none;
+  line-height: 1.4;
+  display: block;
+  padding: 2px 0;
+  position: relative;
+  padding-left: 12px;
+}
+
+.archive-post a:before {
+  content: "・";
+  position: absolute;
+  left: 0;
+  color: #666666;
+  font-weight: bold;
+}
+
+.archive-post a:hover {
+  color: #004499;
+}
+
 /* Active Archive Item Highlight - 目次スタイル */
 .archive-post.active {
   position: relative;
