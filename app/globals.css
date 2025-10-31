@@ -911,14 +911,36 @@ nav {
   background-color: #e6f2ff;
 }
 
-/* Dark mode for active archive */
+/* Dark mode for archive */
 @media (prefers-color-scheme: dark) {
   .archive-months {
-    border-left-color: #404040;
+    border-left-color: #444;
   }
 
   .archive-posts {
-    border-left-color: #303030;
+    border-left-color: #333;
+  }
+
+  .archive-year-toggle,
+  .archive-month-toggle {
+    color: #e0e0e0;
+  }
+
+  .archive-year-toggle:hover,
+  .archive-month-toggle:hover {
+    color: #66b3ff;
+  }
+
+  .archive-post a {
+    color: #66b3ff;
+  }
+
+  .archive-post a:hover {
+    color: #4d94cc;
+  }
+
+  .archive-post a:before {
+    color: #666;
   }
 
   .archive-post.active a {
